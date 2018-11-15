@@ -1,8 +1,4 @@
-from pygments import highlight
-from pygments.lexers import PythonLexer
-from pygments.lexers import JavascriptLexer
-from pygments.lexers import ObjectiveJLexer
-from pygments.formatters import HtmlFormatter
+from slimit.lexer import Lexer
 
 code = '''class MyClass:
 	"This is my second class"
@@ -226,12 +222,7 @@ stack.push('hello');
 ChromeSamples.log(stack.top());
 ChromeSamples.log(stack.length);'''
 
-# PYTHON
-#print(highlight(code, PythonLexer(), HtmlFormatter()))
-#print(highlight(code, PythonLexer(), HtmlFormatter()))
-#print(list(PythonLexer().get_tokens(code)))
+lexer = Lexer()
+for token in lexer:
+  print(token)
 
-# JAVASCRIPT
-#print(highlight(code, PythonLexer(), HtmlFormatter()))
-#print(highlight(code, JavascriptLexer(), HtmlFormatter()))
-print(list(JavascriptLexer().get_tokens(codigo)))
