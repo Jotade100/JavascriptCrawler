@@ -13,8 +13,8 @@ import os, fnmatch, sys
 #db_variablesInFile = db["variablesInFile"]
 #db_archivosLeidos = db["archivos"]
 
-basePath, currentFile = os.path.split(__file__)
-print(currentFile)
+#basePath, currentFile = os.path.split(__file__)
+#print(currentFile)
 
 def eliminarColeccionesDB():
     db_funciones.drop()
@@ -31,8 +31,9 @@ functionsInFile = []
 def readFile(archivo):
     tmpFile = open(archivo, 'r').read()
     return tmpFile
-
-code = readFile('testFile.py')
+currentFile = 'testFile.py' #convertir a variable dinamica al momento de convertir este bloque a funcion
+code = readFile(currentFile) 
+print(currentFile)
 tokenObjects = tuple(PythonLexer().get_tokens(code))
 def convertToJson(token, text):
     return {"token": str(token)[6:], "value": text}
@@ -66,7 +67,8 @@ pyFiles = []
 py = "*.py"
 for f in listOfFiles:
     if fnmatch.fnmatch(f, py):
-        pyFiles.append(f)
+        f2save = {'file':f, 'discovered':0}
+        pyFiles.append(f2save)
 print(" Archivos Python: ",pyFiles)
 
 #for pyFile in pyFiles:
