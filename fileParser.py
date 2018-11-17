@@ -9,18 +9,18 @@ import os, fnmatch
 #myclient = pymongo.MongoClient("mongodb://localhost:27017/")
 #db = myclient["filesParser"]
 #db_funciones = db["funciones"]
-#db_variables = db["variables"]
+#db_variablesInFile = db["variablesInFile"]
 #db_archivosLeidos = db["archivos"]
 
-def eliminarDB():
+def eliminarColeccionesDB():
     db_funciones.drop()
-    db_variables.drop()
+    db_variablesInFile.drop()
     db_archivosLeidos.drop()
 
 importedFilesInFile = [] #archivos a parsear
-classes = []
-variables = []
-functions = []
+classesInFile = []
+variablesInFile = []
+functionsInFile = []
 #from pygments import lex
 
 
@@ -40,16 +40,18 @@ for i in range(0, (len(tmpFileJsonArray)-1)):
         if tmpFileJsonArray[i+2]["value"] not in importedFilesInFile: #valido que el valor no se encuentre ya en el array (luego voy a validar que no este en la db)
             importedFilesInFile.append(tmpFileJsonArray[i+2]["value"]) 
     if tmpFileJsonArray[i]["token"] == "Name.Class":
-        classes.append(tmpFileJsonArray[i]["value"])
+        if tmpFileJsonArray[i]["value"] not in classesInFile:
+            classesInFile.append(tmpFileJsonArray[i]["value"])
     if tmpFileJsonArray[i]["token"] == "Name":
-        variables.append(tmpFileJsonArray[i]["value"])
+        if tmpFileJsonArray[i]["value"] not in variablesInFile:
+            variablesInFile.append(tmpFileJsonArray[i]["value"])
     if tmpFileJsonArray[i]["token"] == "Name.Function":
-        functions.append(tmpFileJsonArray[i]["value"])
+        functionsInFile.append(tmpFileJsonArray[i]["value"])
 #print(tmpFileJsonArray)
 print(importedFilesInFile)
-#print(classes)
-#print(variables)
-#print(functions)
+print("Clases en archivo leído: ",classesInFile)
+print("Variables en archivo leído: ",variablesInFile)
+print("Funciones en archivo leído: ", functionsInFile)
 
 listOfFiles = os.listdir()
 pyFiles = []
@@ -57,7 +59,7 @@ py = "*.py"
 for f in listOfFiles:
     if fnmatch.fnmatch(f, py):
         pyFiles.append(f)
-print(pyFiles)
+print(" Archivos Python: ",pyFiles)
 
 #for pyFile in pyFiles:
 #    registerFile = {"file":pyFile}
