@@ -3,7 +3,7 @@ from pygments.lexers.python import PythonLexer
 from pygments.formatters.html import HtmlFormatter
 import json
 import pymongo
-import os, fnmatch
+import os, fnmatch, sys
 
 # representar colecciones en db como matrices de adyacencia para los archivos y funciones
 
@@ -12,6 +12,9 @@ import os, fnmatch
 #db_funciones = db["funciones"]
 #db_variablesInFile = db["variablesInFile"]
 #db_archivosLeidos = db["archivos"]
+
+basePath, currentFile = os.path.split(__file__)
+print(currentFile)
 
 def eliminarColeccionesDB():
     db_funciones.drop()
