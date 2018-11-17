@@ -26,6 +26,7 @@ classesInFile = []
 variablesInFile = [] #aqui se guardan los objetos json
 tmpVariables = [] #aqui se guarda solo el nombre de las variables en el archivo para validar que no se guarden en variablesInFile vars repetidas
 functionsInFile = []
+queue4scrawler = []
 #from pygments import lex
 
 
