@@ -4,6 +4,7 @@ from controlUnit import CU
 from MemoryAddressRegistry import MemoryAddressRegistry
 from flask import Flask
 from flask import render_template
+import fileParser
 app = Flask(__name__)
 @app.route('/')
 
