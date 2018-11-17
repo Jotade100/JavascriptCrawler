@@ -42,15 +42,19 @@ tmpFileJsonArray = json.loads(File2Json) #creo un diccionario en base al string 
 for i in range(0, (len(tmpFileJsonArray)-1)):
     if (tmpFileJsonArray[i]["token"] == "Keyword.Namespace" and tmpFileJsonArray[i]["value"] == "from") or (tmpFileJsonArray[i]["token"] == "Keyword.Namespace" and tmpFileJsonArray[i]["value"] == "import" and tmpFileJsonArray[i-4]["value"] != "from"): #esta ultima condicion valida que el formato sea: from x import y || import x  
         if tmpFileJsonArray[i+2]["value"] not in importedFilesInFile: #valido que el valor no se encuentre ya en el array (luego voy a validar que no este en la db)
-            importedFilesInFile.append(tmpFileJsonArray[i+2]["value"]) 
+            tmpImported = {"file":tmpFileJsonArray[i+2]["value"], "importedAt": [currentFile], "discovered":1}
+            importedFilesInFile.append(tmpImported) 
     if tmpFileJsonArray[i]["token"] == "Name.Class":
         if tmpFileJsonArray[i]["value"] not in classesInFile:
-            classesInFile.append(tmpFileJsonArray[i]["value"])
+            tmpClass = {"class_name":tmpFileJsonArray[i]["value"], "definedAt": currentFile}
+            classesInFile.append(tmpClass)
     if tmpFileJsonArray[i]["token"] == "Name":
         if tmpFileJsonArray[i]["value"] not in variablesInFile and tmpFileJsonArray[i-1]["value"]!= '.':
-            variablesInFile.append(tmpFileJsonArray[i]["value"])
+            tmpVariable = {"variable":tmpFileJsonArray[i]["value"], "declaredAt":currentFile}
+            variablesInFile.append(tmpVariable)
     if tmpFileJsonArray[i]["token"] == "Name.Function":
-        functionsInFile.append(tmpFileJsonArray[i]["value"])
+        tmpFunction = {"function":tmpFileJsonArray[i]["value"], "createdAt":currentFile, "importedAt":[]}
+        functionsInFile.append(tmpFunction)
 #print(tmpFileJsonArray)
 print(importedFilesInFile)
 print("Clases en archivo leído: ",classesInFile)
