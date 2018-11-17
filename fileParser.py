@@ -3,7 +3,8 @@ from pygments.lexers.python import PythonLexer
 from pygments.formatters.html import HtmlFormatter
 import json
 files = []
-
+classes = []
+variables = []
 #from pygments import lex
 
 
@@ -19,9 +20,13 @@ File2Json =  json.dumps([convertToJson(*token) for token in tokenObjects], inden
 tmpFileJsonArray = json.loads(File2Json) #creo un diccionario en base al string json anterior
 for obj in tmpFileJsonArray:
     if obj["token"] == "Name.Class":
-        print(obj["value"])
+        classes.append(obj["value"])
+    if obj["token"] == "Name":
+        variables.append(obj["value"])
     #print(token)
-print(tmpFileJsonArray)   
+print(classes)
+print(variables)
+
 #print(array)
 #print(tmpFileJson["tokens"])
 
