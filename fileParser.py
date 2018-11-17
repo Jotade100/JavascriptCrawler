@@ -5,6 +5,7 @@ import json
 import pymongo
 import os, fnmatch
 
+# representar colecciones en db como matrices de adyacencia para los archivos y funciones
 
 #myclient = pymongo.MongoClient("mongodb://localhost:27017/")
 #db = myclient["filesParser"]
@@ -43,7 +44,7 @@ for i in range(0, (len(tmpFileJsonArray)-1)):
         if tmpFileJsonArray[i]["value"] not in classesInFile:
             classesInFile.append(tmpFileJsonArray[i]["value"])
     if tmpFileJsonArray[i]["token"] == "Name":
-        if tmpFileJsonArray[i]["value"] not in variablesInFile:
+        if tmpFileJsonArray[i]["value"] not in variablesInFile and tmpFileJsonArray[i-1]["value"]!= '.':
             variablesInFile.append(tmpFileJsonArray[i]["value"])
     if tmpFileJsonArray[i]["token"] == "Name.Function":
         functionsInFile.append(tmpFileJsonArray[i]["value"])
