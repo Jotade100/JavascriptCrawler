@@ -24,7 +24,7 @@ def eliminarColeccionesDB():
 importedFilesInFile = [] #archivos a parsear
 classesInFile = []
 variablesInFile = [] #aqui se guardan los objetos json
-tmpVariables = [] #aqui se van a guardar solo en nombre de las variables para validar que no se guarden en variablesInFile vars repetidas
+tmpVariables = [] #aqui se guarda solo el nombre de las variables en el archivo para validar que no se guarden en variablesInFile vars repetidas
 functionsInFile = []
 #from pygments import lex
 
