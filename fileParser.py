@@ -2,6 +2,20 @@ from pygments import highlight
 from pygments.lexers.python import PythonLexer
 from pygments.formatters.html import HtmlFormatter
 import json
+import pymongo
+import os, fnmatch
+
+
+#myclient = pymongo.MongoClient("mongodb://localhost:27017/")
+#db = myclient["filesParser"]
+#db_funciones = db["funciones"]
+#db_variables = db["variables"]
+#db_archivosLeidos = db["archivos"]
+
+def eliminarDB():
+    db_funciones.drop()
+    db_variables.drop()
+    db_archivosLeidos.drop()
 
 importedFilesInFile = [] #archivos a parsear
 classes = []
@@ -10,11 +24,11 @@ functions = []
 #from pygments import lex
 
 
-def readFile():
-    tmpFile = open('testFile.py', 'r').read()
+def readFile(archivo):
+    tmpFile = open(archivo, 'r').read()
     return tmpFile
 
-code = readFile()
+code = readFile('testFile.py')
 tokenObjects = tuple(PythonLexer().get_tokens(code))
 def convertToJson(token, text):
     return {"token": str(token)[6:], "value": text}
@@ -36,3 +50,18 @@ print(importedFilesInFile)
 #print(classes)
 #print(variables)
 #print(functions)
+
+listOfFiles = os.listdir()
+pyFiles = []
+py = "*.py"
+for f in listOfFiles:
+    if fnmatch.fnmatch(f, py):
+        pyFiles.append(f)
+print(pyFiles)
+
+#for pyFile in pyFiles:
+#    registerFile = {"file":pyFile}
+#    db_archivosLeidos.insert_one(registerFile)
+
+#for x in db_archivosLeidos.find():
+  #print(x)
