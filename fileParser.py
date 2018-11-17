@@ -23,7 +23,8 @@ def eliminarColeccionesDB():
 
 importedFilesInFile = [] #archivos a parsear
 classesInFile = []
-variablesInFile = []
+variablesInFile = [] #aqui se guardan los objetos json
+tmpVariables = [] #aqui se van a guardar solo en nombre de las variables para validar que no se guarden en variablesInFile vars repetidas
 functionsInFile = []
 #from pygments import lex
 
@@ -50,7 +51,8 @@ for i in range(0, (len(tmpFileJsonArray)-1)):
             tmpClass = {"class_name":tmpFileJsonArray[i]["value"], "definedAt": currentFile}
             classesInFile.append(tmpClass)
     if tmpFileJsonArray[i]["token"] == "Name":
-        if tmpFileJsonArray[i]["value"] not in variablesInFile and tmpFileJsonArray[i-1]["value"]!= '.':
+        if tmpFileJsonArray[i]["value"] not in tmpVariables and tmpFileJsonArray[i-1]["value"]!= '.' and tmpFileJsonArray[i-2]["value"]!= 'import' :
+            tmpVariables.append(tmpFileJsonArray[i]["value"])
             tmpVariable = {"variable":tmpFileJsonArray[i]["value"], "declaredAt":currentFile}
             variablesInFile.append(tmpVariable)
     if tmpFileJsonArray[i]["token"] == "Name.Function":
@@ -71,6 +73,25 @@ for f in listOfFiles:
         pyFiles.append(f2save)
 print(" Archivos Python: ",pyFiles)
 
+def lecturaLimpiaClases(classesArray):
+    print("--------------------------- Clases en el archivo -----------------------------------\n")
+    for clase in classesArray:        
+        print(clase["class_name"])
+    print('\n')
+def lecturaLimpiaVariables(variablesArray):
+    print("--------------------------- Variables en el archivo -----------------------------------\n")
+    for var in variablesArray:
+        print(var["variable"])
+    print('\n')
+def lecturaLimpiaFunciones(functionsArray):
+    print("--------------------------- Funciones en el archivo -----------------------------------\n")
+    for func in functionsArray:
+        print(func["function"])
+    print('\n')
+
+lecturaLimpiaClases(classesInFile)
+lecturaLimpiaVariables(variablesInFile)
+lecturaLimpiaFunciones(functionsInFile)
 #for pyFile in pyFiles:
 #    registerFile = {"file":pyFile}
 #    db_archivosLeidos.insert_one(registerFile)
