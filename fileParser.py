@@ -3,7 +3,7 @@ from pygments.lexers.python import PythonLexer
 from pygments.formatters.html import HtmlFormatter
 import json
 
-files = [] #archivos a parsear
+importedFilesInFile = [] #archivos a parsear
 classes = []
 variables = []
 functions = []
@@ -23,8 +23,8 @@ tmpFileJsonArray = json.loads(File2Json) #creo un diccionario en base al string 
 
 for i in range(0, (len(tmpFileJsonArray)-1)):
     if (tmpFileJsonArray[i]["token"] == "Keyword.Namespace" and tmpFileJsonArray[i]["value"] == "from") or (tmpFileJsonArray[i]["token"] == "Keyword.Namespace" and tmpFileJsonArray[i]["value"] == "import" and tmpFileJsonArray[i-4]["value"] != "from"): #esta ultima condicion valida que el formato sea: from x import y || import x  
-        if tmpFileJsonArray[i+2]["value"] not in files: #valido que el valor no se encuentre ya en el array (luego voy a validar que no este en la db)
-            files.append(tmpFileJsonArray[i+2]["value"]) 
+        if tmpFileJsonArray[i+2]["value"] not in importedFilesInFile: #valido que el valor no se encuentre ya en el array (luego voy a validar que no este en la db)
+            importedFilesInFile.append(tmpFileJsonArray[i+2]["value"]) 
     if tmpFileJsonArray[i]["token"] == "Name.Class":
         classes.append(tmpFileJsonArray[i]["value"])
     if tmpFileJsonArray[i]["token"] == "Name":
@@ -32,7 +32,7 @@ for i in range(0, (len(tmpFileJsonArray)-1)):
     if tmpFileJsonArray[i]["token"] == "Name.Function":
         functions.append(tmpFileJsonArray[i]["value"])
 #print(tmpFileJsonArray)
-print(files)
+print(importedFilesInFile)
 #print(classes)
 #print(variables)
 #print(functions)
