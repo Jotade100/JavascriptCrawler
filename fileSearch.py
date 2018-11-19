@@ -8,6 +8,11 @@ def readFile(archivo):
     tmpFile = open(archivo, 'r').read()
     return tmpFile
 
+def agregar(item, lista):
+    if item not in lista:
+        lista.append(item)
+
+
 def lectura(archivos):
     for archivo in archivos:
         try:
@@ -18,7 +23,7 @@ def lectura(archivos):
                     cadena = item[1]
                     cadena = cadena.replace(".", "/")
                     cadena = cadena + ".py"
-                    archivos.add(cadena)
+                    agregar(cadena, archivos)
         except:
             # variable de broma XD
             variable = 0
