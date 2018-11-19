@@ -6,8 +6,8 @@ from fileParser import lexeo
 listaArchivos = ['testFile.py']
 lectura(listaArchivos)
 # Probando la lectura
-print(listaArchivos)
+#print(listaArchivos)
 #lexeo(listaArchivos[0])
-#for i in listaArchivos:
-#    lexeo(i)
+for i in listaArchivos:
+    lexeo(i)
 
