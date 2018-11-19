@@ -16,6 +16,15 @@ import os, fnmatch, sys
 #basePath, currentFile = os.path.split(__file__)
 #print(currentFile)
 
+def extractParams(indice): # indice primer parentesis
+    indice = indice + 1 # esto es para empezar a evaluar el primer parametro.
+    params = []
+    while tmpFileJsonArray[indice]["value"] != ")":
+        if tmpFileJsonArray[indice]["token"] == "Name":
+            params.append(tmpFileJsonArray[indice]["value"])
+        indice += 1
+    return params
+
 def eliminarColeccionesDB():
     db_funciones.drop()
     db_variablesInFile.drop()
@@ -34,9 +43,9 @@ queue4scrawler = [] #se va a hacer enqueue a los archivos que no hayan sido desc
 def readFile(archivo):
     tmpFile = open(archivo, 'r').read()
     return tmpFile
-currentFile = 'testFile.py' #convertir a variable dinamica al momento de convertir este bloque a funcion
+currentFile = 'unitTesting.py' #convertir a variable dinamica al momento de convertir este bloque a funcion
 code = readFile(currentFile) 
-print(currentFile)
+#print(currentFile)
 tokenObjects = tuple(PythonLexer().get_tokens(code))
 def convertToJson(token, text):
     return {"token": str(token)[6:], "value": text}
@@ -58,13 +67,17 @@ for i in range(0, (len(tmpFileJsonArray)-1)):
             tmpVariable = {"variable":tmpFileJsonArray[i]["value"], "declaredAt":currentFile}
             variablesInFile.append(tmpVariable)
     if tmpFileJsonArray[i]["token"] == "Name.Function":
-        tmpFunction = {"function":tmpFileJsonArray[i]["value"], "createdAt":currentFile, "importedAt":[]}
+        tmpParams = extractParams(i)
+        #if tmpFileJsonArray[i+1]["token"] == "Token.Punctuation":
+        tmpFunction = {"function":tmpFileJsonArray[i]["value"], "params": tmpParams,"createdAt":currentFile, "importedAt":[]}
         functionsInFile.append(tmpFunction)
+
+
 #print(tmpFileJsonArray)
-print(importedFilesInFile)
-print("Clases en archivo leído: ",classesInFile)
-print("Variables en archivo leído: ",variablesInFile)
-print("Funciones en archivo leído: ", functionsInFile)
+#print(importedFilesInFile)
+#print("Clases en archivo leído: ",classesInFile)
+#print("Variables en archivo leído: ",variablesInFile)
+#print("Funciones en archivo leído: ", functionsInFile)
 
 listOfFiles = os.listdir()
 pyFiles = []
@@ -73,7 +86,7 @@ for f in listOfFiles:
     if fnmatch.fnmatch(f, py):
         f2save = {'file':f, 'discovered':0}
         pyFiles.append(f2save)
-print(" Archivos Python: ",pyFiles)
+#print(" Archivos Python: ",pyFiles)
 
 def lecturaLimpiaClases(classesArray):
     print("--------------------------- Clases en el archivo -----------------------------------\n")
@@ -91,12 +104,16 @@ def lecturaLimpiaFunciones(functionsArray):
         print(func["function"])
     print('\n')
 
-lecturaLimpiaClases(classesInFile)
-lecturaLimpiaVariables(variablesInFile)
-lecturaLimpiaFunciones(functionsInFile)
+#lecturaLimpiaClases(classesInFile)
+#lecturaLimpiaVariables(variablesInFile)
+#lecturaLimpiaFunciones(functionsInFile)
+
 #for pyFile in pyFiles:
 #    registerFile = {"file":pyFile}
 #    db_archivosLeidos.insert_one(registerFile)
 
 #for x in db_archivosLeidos.find():
   #print(x)
+#print(tokenObjects)
+#print(tmpFileJsonArray)
+#print(functionsInFile)
