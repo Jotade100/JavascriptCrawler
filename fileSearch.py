@@ -3,29 +3,10 @@ from pygments.lexers.python import PythonLexer
 from pygments.formatters.html import HtmlFormatter
 from pygments.token import String, string_to_tokentype
 
+# # # # # # # # Métodos # # # # # # # #
 def readFile(archivo):
     tmpFile = open(archivo, 'r').read()
     return tmpFile
-#currentFile = 'testFile.py' #El archivo inicial desde donde se empieza a hacer el árbol de clases.
-#code = readFile(currentFile) 
-#print(code)
-#print(list(PythonLexer().get_tokens(code)))
-#lista = list(PythonLexer().get_tokens(code))
-#resultados = []
-#for item in lista:
-    # Buscar todos los que contienen en su primer valor Token.Name.Namespace
-    # En el segundo se vera como carpeta.carpeta2.archivo
-    # print(type(item[0]))
-#    if item[0] == string_to_tokentype('Token.Name.Namespace'):
-#        # print(item[1])
-#        cadena = item[1]
-#        cadena = cadena.replace(".", "/")
-#        cadena = cadena + ".py"
-#        resultados.append(cadena)
-
-
-# Aquí se debe de poner el archivo inicial desde donde se inicia el escaneo.
-resultados = ['testFile.py']
 
 def lectura(archivos):
     for archivo in archivos:
@@ -37,10 +18,14 @@ def lectura(archivos):
                     cadena = item[1]
                     cadena = cadena.replace(".", "/")
                     cadena = cadena + ".py"
-                    archivos.append(cadena)
+                    archivos.add(cadena)
         except:
-            print("El archivo " + archivo + " no existe")
+            # variable de broma XD
+            variable = 0
+            # El archivo no existe, de seguro es una librería general 
+            #print("El archivo " + archivo + " no existe")
 
 
-lectura(resultados)
-print(resultados)
+# # # # # # # # Código de prueba # # # # # # # #
+#lectura(resultados)
+#print(resultados)
