@@ -4,6 +4,26 @@ from pygments.formatters.html import HtmlFormatter
 import json
 import pymongo
 import os, fnmatch, sys
+import dbConf as db
+
+
+# ----------------------------- Variables para funciones de la base de datos ---------------------------------------------------------------
+
+VAR, FX, C = "var","fx","class"
+
+# -----------------------------------------------------------------------------------------------------------------------------------------
+
+# -------------------------------------- Instanciacion de Base De Datos ------------------------------------------------------------------
+db = db.dataBase()
+#record2saveTEST = {'function': 'primeraFuncion', 'params': ['token', 'text'], 'createdAt': 'unitTesting.py', 'importedAt': []}
+#db.registrar("var",record2saveTEST)
+#db.imprimirVariables()
+#db.imprimir(FX)
+#db.reset()
+#db.imprimir(FX)
+#db.reset()
+
+
 
 def extractParams(tmpFileJsonArray, indice): # indice primer parentesis
     indice = indice + 1 # esto es para empezar a evaluar el primer parametro.
@@ -14,10 +34,13 @@ def extractParams(tmpFileJsonArray, indice): # indice primer parentesis
         indice += 1
     return params
 
+
+
 def eliminarColeccionesDB():
     db_funciones.drop()
     db_variablesInFile.drop()
     db_archivosLeidos.drop()
+
 
 def readFile(archivo):
     tmpFile = open(archivo, 'r').read()
@@ -48,16 +71,23 @@ def lexeo(archivo):
                 if tmpFileJsonArray[i]["value"] not in classesInFile:
                     tmpClass = {"class_name":tmpFileJsonArray[i]["value"], "definedAt": archivo}
                     classesInFile.append(tmpClass)
+
+                    db.registrar(C,tmpClass) # Base de datos
+
+
             if tmpFileJsonArray[i]["token"] == "Name":
                 if tmpFileJsonArray[i]["value"] not in tmpVariables and tmpFileJsonArray[i-1]["value"]!= '.' and tmpFileJsonArray[i-2]["value"]!= 'import' :
                     tmpVariables.append(tmpFileJsonArray[i]["value"])
                     tmpVariable = {"variable":tmpFileJsonArray[i]["value"], "declaredAt":archivo}
                     variablesInFile.append(tmpVariable)
+                    db.registrar(VAR,tmpVariable) # Base de datos
+
             if tmpFileJsonArray[i]["token"] == "Name.Function":
                 tmpParams = extractParams(tmpFileJsonArray,i)
                 #if tmpFileJsonArray[i+1]["token"] == "Token.Punctuation":
                 tmpFunction = {"function":tmpFileJsonArray[i]["value"], "params": tmpParams,"createdAt":archivo, "paramsNumber": len(tmpParams) ,"importedAt":[]}
                 functionsInFile.append(tmpFunction)
+                db.registrar(FX,tmpFunction) # Base de datos
         # Terminado de leer el archivo
         print(classesInFile)
         print(variablesInFile)
