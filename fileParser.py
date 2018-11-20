@@ -6,6 +6,7 @@ import pymongo
 import os, fnmatch, sys
 import dbConf as db
 
+
 # ----------------------------- Variables para funciones de la base de datos ---------------------------------------------------------------
 
 VAR, FX, C = "var","fx","class"
@@ -22,6 +23,8 @@ db = db.dataBase()
 #db.imprimir(FX)
 #db.reset()
 
+
+
 def extractParams(tmpFileJsonArray, indice): # indice primer parentesis
     indice = indice + 1 # esto es para empezar a evaluar el primer parametro.
     params = []
@@ -30,6 +33,14 @@ def extractParams(tmpFileJsonArray, indice): # indice primer parentesis
             params.append(tmpFileJsonArray[indice]["value"])
         indice += 1
     return params
+
+
+
+def eliminarColeccionesDB():
+    db_funciones.drop()
+    db_variablesInFile.drop()
+    db_archivosLeidos.drop()
+
 
 def readFile(archivo):
     tmpFile = open(archivo, 'r').read()
@@ -60,13 +71,17 @@ def lexeo(archivo):
                 if tmpFileJsonArray[i]["value"] not in classesInFile:
                     tmpClass = {"class_name":tmpFileJsonArray[i]["value"], "definedAt": archivo}
                     classesInFile.append(tmpClass)
+
                     db.registrar(C,tmpClass) # Base de datos
+
+
             if tmpFileJsonArray[i]["token"] == "Name":
                 if tmpFileJsonArray[i]["value"] not in tmpVariables and tmpFileJsonArray[i-1]["value"]!= '.' and tmpFileJsonArray[i-2]["value"]!= 'import' :
                     tmpVariables.append(tmpFileJsonArray[i]["value"])
                     tmpVariable = {"variable":tmpFileJsonArray[i]["value"], "declaredAt":archivo}
                     variablesInFile.append(tmpVariable)
                     db.registrar(VAR,tmpVariable) # Base de datos
+
             if tmpFileJsonArray[i]["token"] == "Name.Function":
                 tmpParams = extractParams(tmpFileJsonArray,i)
                 #if tmpFileJsonArray[i+1]["token"] == "Token.Punctuation":
