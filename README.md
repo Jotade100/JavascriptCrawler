@@ -54,8 +54,24 @@ PythonCrawler utiliza una base de datos Mongo, en la que almacena los objetos re
 
 ##### Nombre de colección en db: `classes`
 
-Los atributos de los objetos en esta clase son los siguientes:
+Las llaves de los objetos en esta colección son las siguientes:
 
 * `className` : nombre de la clase registrada.
 * `definedAt` : archivo en el cual se definió dicha clase.
-* `inheritsClass` : clases heredadas para dicha clase.
+* `inheritsClass` : clase heredada por la clase.
+
+##### Nombre de colección en db: `variables`
+
+Las llaves de los objetos en esta colección son las siguientes:
+
+* `variable` : nombre de la variable registrada.
+* `declaredAt` : nombre del archivo en la que se definió la variable.
+
+##### Nombre de colección en db: `functions`
+
+Las llaves de los objetos en esta colección son las siguientes:
+
+* `function` : nombre de la función registrada.
+* `params` : nombre de los parametros que recibe la función.
+* `createdAt` : nombre del archivo en el que se creó la función.
+* `paramsNumber` : cantidad de parámetros que recibe la función.

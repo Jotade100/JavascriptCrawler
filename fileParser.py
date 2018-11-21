@@ -64,7 +64,7 @@ def lexeo(archivo):
         for i in range(0, (len(tmpFileJsonArray)-1)):
             if (tmpFileJsonArray[i]["token"] == "Keyword.Namespace" and tmpFileJsonArray[i]["value"] == "from") or (tmpFileJsonArray[i]["token"] == "Keyword.Namespace" and tmpFileJsonArray[i]["value"] == "import" and tmpFileJsonArray[i-4]["value"] != "from"): #esta ultima condicion valida que el formato sea: from x import y || import x  
                 if tmpFileJsonArray[i+2]["value"] not in importedFilesInFile: #valido que el valor no se encuentre ya en el array (luego voy a validar que no este en la db)
-                    tmpImported = {"file":tmpFileJsonArray[i+2]["value"], "imported_At": [archivo], "discovered":1}
+                    tmpImported = {"file":tmpFileJsonArray[i+2]["value"], "importedAt": [archivo], "discovered":1}
                     importedFilesInFile.append(tmpImported) 
             if tmpFileJsonArray[i]["token"] == "Name.Class":
                 if tmpFileJsonArray[i]["value"] not in classesInFile:
@@ -78,7 +78,7 @@ def lexeo(archivo):
             if tmpFileJsonArray[i]["token"] == "Name":
                 if tmpFileJsonArray[i]["value"] not in tmpVariables and tmpFileJsonArray[i-1]["value"]!= '.' and tmpFileJsonArray[i-2]["value"]!= 'import' :
                     tmpVariables.append(tmpFileJsonArray[i]["value"])
-                    tmpVariable = {"variable":tmpFileJsonArray[i]["value"], "declared_At":archivo}
+                    tmpVariable = {"variable":tmpFileJsonArray[i]["value"], "declaredAt":archivo}
                     variablesInFile.append(tmpVariable)
                     db.registrar(VAR,tmpVariable) # Base de datos
 
