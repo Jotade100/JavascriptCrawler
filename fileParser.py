@@ -5,7 +5,7 @@ import json
 import pymongo
 import os, fnmatch, sys
 import dbConf as db
-
+from pprint import pprint
 # ----------------------------- Variables para funciones de la base de datos ---------------------------------------------------------------
 
 VAR, FX, C = "var","fx","class"
@@ -30,6 +30,14 @@ def extractParams(tmpFileJsonArray, indice): # indice primer parentesis
             params.append(tmpFileJsonArray[indice]["value"])
         indice += 1
     return params
+
+def extractInherits(tmpFileJsonArray, indice): # indice primer parentesis
+    indice = indice + 1 # esto es para empezar a evaluar el primer parametro.
+    while tmpFileJsonArray[indice]["value"] != ")":
+        if tmpFileJsonArray[indice]["token"] == "Name":
+            inheritedClass = tmpFileJsonArray[indice]["value"]
+        indice += 1
+    return inheritedClass
 
 def readFile(archivo):
     tmpFile = open(archivo, 'r').read()
@@ -58,7 +66,8 @@ def lexeo(archivo):
                     importedFilesInFile.append(tmpImported) 
             if tmpFileJsonArray[i]["token"] == "Name.Class":
                 if tmpFileJsonArray[i]["value"] not in classesInFile:
-                    tmpClass = {"class_name":tmpFileJsonArray[i]["value"], "definedAt": archivo}
+                    tmpInherits = extractInherits(tmpFileJsonArray,i)
+                    tmpClass = {"class_name":tmpFileJsonArray[i]["value"], "definedAt": archivo, "inherits_class":tmpInherits}
                     classesInFile.append(tmpClass)
                     db.registrar(C,tmpClass) # Base de datos
             if tmpFileJsonArray[i]["token"] == "Name":
@@ -74,14 +83,20 @@ def lexeo(archivo):
                 functionsInFile.append(tmpFunction)
                 db.registrar(FX,tmpFunction) # Base de datos
         # Terminado de leer el archivo
-        print(classesInFile)
-        print(variablesInFile)
-        print(functionsInFile)
+        #print(classesInFile)
+        #print(variablesInFile)
+        #print(functionsInFile)
+
     except:
         variable = 0
 
+db.imprimir(FX)
 
-
+#db.imprimir(FX)
+#cursor = db.classes_db.find({"inherits_class": "data"})
+#for d in cursor:
+#    pprint(d["class_name"])
+#db.reset()
 # # # # # # # # # # # # # # Código de prueba # # # # # # # # # # # # # # # # #
 
 # importedFilesInFile = [] #archivos a parsear

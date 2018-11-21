@@ -44,9 +44,10 @@ class dataBase():
             for f in _functions:
                 print(f)
         if collection == "class":
-            _classes = self.classes_db
+            _classes = self.classes_db.find()
             for c in _classes:
                 print(c)
+
     def reset(self, collection="all"):
         if collection == "var":
             self.variables_db.drop()
@@ -59,6 +60,10 @@ class dataBase():
             self.classes_db.drop()
             self.functions_db.drop()
             self.variables_db.drop()
+        
+    def query(self, collection, value2search): #class_name
+        if collection == "class":
+            self.classes_db.find({'inherits_class':value2search})
 
     
     #print(myDB)
