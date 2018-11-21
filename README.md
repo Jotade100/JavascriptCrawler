@@ -51,3 +51,5 @@ En este punto, el programa inicia con el parseo del código fuente especificado,
 PythonCrawler utiliza una base de datos Mongo, en la que almacena los objetos relevantes parseados en cada uno de los archivos del grafo. Los objetos los almacena en distintas colecciones dependiendo de su naturaleza (variables, clases o funciones). Para acceder a estos datos, la información relevante se detalla a continuación:
 
 #### Detalles de cada colección
+
+##### Colección de clases:
