@@ -5,12 +5,7 @@ import json
 import pymongo
 import os, fnmatch, sys
 import dbConf as db
-<<<<<<< HEAD
 from pprint import pprint
-=======
-
-
->>>>>>> f7e958528f10052a952b4d52e593442f75d65435
 # ----------------------------- Variables para funciones de la base de datos ---------------------------------------------------------------
 
 VAR, FX, C = "var","fx","class"
@@ -38,7 +33,6 @@ def extractParams(tmpFileJsonArray, indice): # indice primer parentesis
         indice += 1
     return params
 
-<<<<<<< HEAD
 def extractInherits(tmpFileJsonArray, indice): # indice primer parentesis
     indice = indice + 1 # esto es para empezar a evaluar el primer parametro.
     while tmpFileJsonArray[indice]["value"] != ")":
@@ -46,15 +40,6 @@ def extractInherits(tmpFileJsonArray, indice): # indice primer parentesis
             inheritedClass = tmpFileJsonArray[indice]["value"]
         indice += 1
     return inheritedClass
-=======
-
-
-def eliminarColeccionesDB():
-    db_funciones.drop()
-    db_variablesInFile.drop()
-    db_archivosLeidos.drop()
-
->>>>>>> f7e958528f10052a952b4d52e593442f75d65435
 
 def readFile(archivo):
     tmpFile = open(archivo, 'r').read()
@@ -111,7 +96,7 @@ def lexeo(archivo):
     except:
         variable = 0
 
-db.imprimir(FX)
+#db.imprimir(FX)
 
 #db.imprimir(FX)
 #cursor = db.classes_db.find({"inherits_class": "data"})
