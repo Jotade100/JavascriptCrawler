@@ -52,4 +52,10 @@ PythonCrawler utiliza una base de datos Mongo, en la que almacena los objetos re
 
 #### Detalles de cada colección
 
-##### Colección de clases:
+##### Colección de clases
+
+* Nombre de colección en db: `classes`
+
+Los atributos de los objetos en esta clase son los siguientes:
+
+*
