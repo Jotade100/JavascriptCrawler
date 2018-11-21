@@ -56,4 +56,6 @@ PythonCrawler utiliza una base de datos Mongo, en la que almacena los objetos re
 
 Los atributos de los objetos en esta clase son los siguientes:
 
-*
+* `className` : nombre de la clase registrada.
+* `definedAt` : archivo en el cual se definió dicha clase.
+* `inheritsClass` : clases heredadas para dicha clase.
