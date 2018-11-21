@@ -65,7 +65,7 @@ Las llaves de los objetos en esta colección son las siguientes:
 Las llaves de los objetos en esta colección son las siguientes:
 
 * `variable` : nombre de la variable registrada.
-* `declaredAt` : nombre del archivo en la que se definió la variable.
+* `declaredAt` : nombre del archivo en el que se definió la variable.
 
 ##### Nombre de colección en db: `functions`
 
