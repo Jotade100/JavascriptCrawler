@@ -1,5 +1,5 @@
 # Python Crawler
-> Este sistema es un crawler que permite indexar y buscar objetos en Python ( > v3.6.x). Esto lo hace a través de la inspección del código fuente e identifica las relaciones entre archivos por medio de expresiones  ```import``` en el código para ubicar los demás archivos a parsear e ir creando un path de recorrido en el grafo. Luego de parsear el código fuente, se almacenan las variables, funciones y clases identificadas en una base de datos mongo, para luego facilitar las consultas personalizadas de la data clasificada de los archivos. 
+> Este sistema es un crawler que permite indexar y buscar objetos en Python (versión > 3.5). Esto lo hace a través de la inspección del código fuente e identificación de relaciones entre archivos utilizando las expresiones  ```import``` en el código, con el fin de ubicar los demás archivos que serán parseados y crear un path de recorrido en el grafo. Luego de parsear el código fuente, se almacenan las variables, funciones y clases identificadas en una base de datos Mongo, para luego facilitar las consultas personalizadas de la data. 
 
 ## Instalación e implementación
 ### Requerimientos
