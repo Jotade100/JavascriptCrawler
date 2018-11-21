@@ -19,9 +19,9 @@ Acceder al directorio clonado:
 
 Agregar en este directorio los archivos y carpetas python a inspeccionar con el crawler:
 
-`cp -R path_to_sourceFiles JavascriptCrawler/`
+`$ cp -R path_to_sourceFiles JavascriptCrawler/`
 
-Modificar en el archivo de configuración `config.yml` el valor de la llave `archivo` al nombre del archivo python que se va a utilizar como el archivo root: (el archivo root debe estar a nivel del directorio Ej. JavascriptCrawler/nombreArchivo.py )
+Modificar en el archivo de configuración `config.yml`, el valor de la llave `archivo` con el nombre del archivo python que se va a utilizar como el archivo root: (el archivo root debe estar a nivel del directorio Ej. JavascriptCrawler/nombreArchivo.py )
 
 `$ nano config.yml`
 
@@ -40,3 +40,14 @@ Levantar el container a partir de la imagen con nombre `pythonCrawler`:
 En este punto, el programa inicia con el parseo del código fuente especificado, almacenando la información útil en la base de datos y continua con el recorrido de los demás archivos utilizando los imports.
 
 ## Información de la Base de Datos (MongoDB)
+
+* Nombre de la base de datos: pythonParser
+* ip address: localhost
+* puerto: 27017
+
+### Colecciones
+> Las colecciones son el equivalente de las tablas utilizadas en las RDBs, y almacenan objetos (documentos) que comparten características o atributos entre sí.
+
+PythonCrawler utiliza una base de datos Mongo, en la que almacena los objetos relevantes parseados en cada uno de los archivos del grafo. Los objetos los almacena en distintas colecciones dependiendo de su naturaleza (variables, clases o funciones). Para acceder a estos datos, la información relevante se detalla a continuación:
+
+#### Detalles de cada colección
