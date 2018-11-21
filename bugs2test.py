@@ -1,5 +1,5 @@
 from fileParser import lexeo
 from dbConf import dataBase
 
-#db = dataBase()
+db = dataBase()
 lexeo("testFile.py")

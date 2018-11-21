@@ -6,6 +6,7 @@ with open("config.yml", 'r') as ymlfile:
     cfg = yaml.load(ymlfile)
 # lista con los archivos usados
 listaArchivos = [cfg['inicializador']['archivo']]
+# rootFile = cfg['inicializador']['pathBase']+"\\"+cfg['inicializador']['archivo'] # si no funcionara docker, se puede usar esto para definir el path del archivo main sin copiar todo al dir
 lectura(listaArchivos)
 # Probando la lectura
 #print(listaArchivos)
