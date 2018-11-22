@@ -104,4 +104,4 @@ En la consola de MongoDb, seleccionar la base de datos correcta:
 * `db.variables.find( { declaredAt: "testFile.py" } )` Encuentra todas las `variables` definidas en el archivo `testFile.py`.
 * `db.classes.find( {inheritsClass:"data"} )` Encuentra todas las `clases` que heredan la clase `data`.
 
-Para queries más avanzados, puede consultar el [manual de queries](https://docs.mongodb.com/manual/tutorial/query-documents/) para MongoDB Shell.
+Para queries más avanzados, puede consultar el [manual de queries](https://docs.mongodb.com/manual/tutorial/query-documents/) de MongoDB Shell.
