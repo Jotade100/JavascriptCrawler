@@ -31,11 +31,11 @@ Modificar en el archivo de configuración `config.yml`, el valor de la llave `ar
 
 Construir imagen a partir del Dockerfile en el directorio JavascriptCrawler/:
 
-`docker build -t pythonCrawler . `
+`docker image build -t algoritmia2:0.0 .`
 
 Levantar el container a partir de la imagen con nombre `pythonCrawler`:
 
-`docker run -it pythonCrawler`
+`docker run -i -t algoritmia2:0.0 bash`
 
 En este punto, el programa inicia con el parseo del código fuente especificado, almacenando la información útil en la base de datos y continua con el recorrido de los demás archivos utilizando los imports.
 
