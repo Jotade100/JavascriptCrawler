@@ -59,6 +59,7 @@ Las llaves de los objetos en esta colección son las siguientes:
 * `className` : nombre de la clase registrada.
 * `definedAt` : archivo en el cual se definió dicha clase.
 * `inheritsClass` : clase heredada por la clase.
+* `isParentClass` : indica (0 , 1) si la clase es clase padre.
 
 ##### Nombre de colección en db: `variables`
 
@@ -75,3 +76,32 @@ Las llaves de los objetos en esta colección son las siguientes:
 * `params` : nombre de los parametros que recibe la función.
 * `createdAt` : nombre del archivo en el que se creó la función.
 * `paramsNumber` : cantidad de parámetros que recibe la función.
+
+## Queries básicos
+En esta sección se definen los queries básicos para la base de datos con nombre `pythonParser`. Estos queries permiten tener noción de cómo navegar y realizar consultas básicas en la base de datos, para que, posteriormente, pueda realizar consultas más avanzadas con los datos en las distintas colecciones disponibles.
+
+En la consola de MongoDb, seleccionar la base de datos correcta:
+
+`use pythonParser`
+
+### Seleccionar todos los `documentos` registrados, por el crawler, en una colección específica:
+
+`db.coleccion.find( {} )`
+
+#### Ejemplos:
+
+* `db.variables.find( {} )` Encuentra todas las `variables`, con los atributos mencionados anteriormente, registradas por el crawler.
+* `db.classes.find( {} )` Encuentra todas las `clases`, con los atributos mencionados anteriormente, registradas por el crawler.
+* `db.functions.find( {} )` Encuentra todas las `funciones`, con los atributos mencionados anteriormente, registradas por el crawler.
+
+### Seleccionar todos los `documentos` que tienen, en sus atributos, el valor especificado:
+
+`db.coleccion.find( { atributo: valor } )`
+
+#### Ejemplos:
+
+* `db.functions.find( { paramsNumber: 1 } )` Encuentra todas las `funciones` que aceptan un sólo parámetro.
+* `db.variables.find( { declaredAt: "testFile.py" } )` Encuentra todas las `variables` definidas en el archivo `testFile.py`.
+* `db.classes.find( {inheritsClass:"data"} )` Encuentra todas las `clases` que heredan la clase `data`.
+
+Para queries más avanzados, puede consultar el [manual de queries](https://docs.mongodb.com/manual/tutorial/query-documents/) de MongoDB Shell.

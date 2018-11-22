@@ -92,7 +92,6 @@ def lexeo(archivo):
     #print(variablesInFile)
     #print(functionsInFile)
 
-
 #db.imprimir(FX)
 
 #db.imprimir(FX)
