@@ -67,9 +67,12 @@ def lexeo(archivo):
                     tmpImported = {"file":tmpFileJsonArray[i+2]["value"], "importedAt": [archivo], "discovered":1}
                     importedFilesInFile.append(tmpImported) 
             if tmpFileJsonArray[i]["token"] == "Name.Class":
-                if tmpFileJsonArray[i]["value"] not in classesInFile:
+                if tmpFileJsonArray[i]["value"] not in classesInFile:                    
                     tmpInherits = extractInherits(tmpFileJsonArray,i)
-                    tmpClass = {"className":tmpFileJsonArray[i]["value"], "definedAt": archivo, "inheritsClass":tmpInherits}
+                    IsParent = 1
+                    if len(tmpInherits)>0:
+                        IsParent = 0
+                    tmpClass = {"className":tmpFileJsonArray[i]["value"], "definedAt": archivo, "inheritsClass":tmpInherits, "isParentClass":IsParent}
                     classesInFile.append(tmpClass)
 
                     db.registrar(C,tmpClass) # Base de datos
