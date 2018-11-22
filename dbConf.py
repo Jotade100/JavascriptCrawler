@@ -9,21 +9,25 @@
 
 from pymongo import MongoClient
 
+def imprimir(cadena):
+    return print(cadena.encode('utf-8'))
+
 class dataBase():
 
     def __init__(self, puerto=27017):
         try: 
-            self.client = MongoClient('localhost', puerto) #27017
+            self.client = MongoClient('mongodb://localhost', puerto) #27017
+            self.client.drop_database('pythonParser')
             self.data = self.client['pythonParser']   # creo/acceso la base de datos
             self.variables_db = self.data['variables']  # creo la coleccion variables en la db pythonParser
             self.functions_db = self.data['functions'] # creo la coleccion functions en la db pythonParser
             self.classes_db = self.data['classes'] # creo la coleccion classes en la db pythonParser
             self._parametros = {"var":self.variables_db, "function":self.functions_db, "class":self.classes_db}
-            print("Conectado a la DB")
+            imprimir("Conectado a la DB ;)")
             #print('Parametros aceptados en colecciones: ', self._parametros)
             #return client
         except:   
-            print("error en conexión")
+            imprimir("error en conexión")
 
     def registrar(self, collection, dictionary2save):
         if collection == "var":
@@ -32,7 +36,7 @@ class dataBase():
             self._parametros["function"].insert(dictionary2save)
         if collection == "class":
             self._parametros["class"].insert(dictionary2save)
-        #print('Guardado')
+        #print('Guardado', dictionary2save)
     
     def imprimir(self, collection):
         if collection == "var":
