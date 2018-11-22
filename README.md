@@ -86,22 +86,22 @@ En la consola de MongoDb, seleccionar la base de datos correcta:
 
 ### Seleccionar todos los `documentos` registrados, por el crawler, en una colección específica:
 
-`db.coleccion.find( {} )`
+`db.coleccion.find( {} ).pretty()`
 
 #### Ejemplos:
 
-* `db.variables.find( {} )` Encuentra todas las `variables`, con los atributos mencionados anteriormente, registradas por el crawler.
-* `db.classes.find( {} )` Encuentra todas las `clases`, con los atributos mencionados anteriormente, registradas por el crawler.
-* `db.functions.find( {} )` Encuentra todas las `funciones`, con los atributos mencionados anteriormente, registradas por el crawler.
+* `db.variables.find( {} ).pretty()` Encuentra todas las `variables`, con los atributos mencionados anteriormente, registradas por el crawler.
+* `db.classes.find( {} ).pretty()` Encuentra todas las `clases`, con los atributos mencionados anteriormente, registradas por el crawler.
+* `db.functions.find( {} ).pretty()` Encuentra todas las `funciones`, con los atributos mencionados anteriormente, registradas por el crawler.
 
 ### Seleccionar todos los `documentos` que tienen, en sus atributos, el valor especificado:
 
-`db.coleccion.find( { atributo: valor } )`
+`db.coleccion.find( { atributo: valor } ).pretty()`
 
 #### Ejemplos:
 
-* `db.functions.find( { paramsNumber: 1 } )` Encuentra todas las `funciones` que aceptan un sólo parámetro.
-* `db.variables.find( { declaredAt: "testFile.py" } )` Encuentra todas las `variables` definidas en el archivo `testFile.py`.
-* `db.classes.find( {inheritsClass:"data"} )` Encuentra todas las `clases` que heredan la clase `data`.
+* `db.functions.find( { paramsNumber: 1 } ).pretty()` Encuentra todas las `funciones` que aceptan un sólo parámetro.
+* `db.variables.find( { declaredAt: "testFile.py" } ).pretty()` Encuentra todas las `variables` definidas en el archivo `testFile.py`.
+* `db.classes.find( {inheritsClass:"data"} ).pretty()` Encuentra todas las `clases` que heredan la clase `data`.
 
 Para queries más avanzados, puede consultar el [manual de queries](https://docs.mongodb.com/manual/tutorial/query-documents/) de MongoDB Shell.
