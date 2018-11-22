@@ -1,3 +1,4 @@
 #!/bin/bash
 mongod --fork --logpath /tmp/mongo
-exec python3 -u truncateOS.py
+python3 truncateOS.py
+mongo pythonParser

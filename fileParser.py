@@ -22,6 +22,8 @@ db = db.dataBase()
 #db.imprimir(FX)
 #db.reset()
 
+def imprimir(cadena):
+    return print(cadena.encode('utf-8'))
 
 
 def extractParams(tmpFileJsonArray, indice): # indice primer parentesis
@@ -43,7 +45,8 @@ def extractInherits(tmpFileJsonArray, indice): # indice primer parentesis
     return inheritedClass
 
 def readFile(archivo):
-    tmpFile = open(archivo, 'r').read()
+    imprimir(archivo)
+    tmpFile = open(archivo, 'r', encoding = "utf-8").read()
     return tmpFile
 
 def convertToJson(token, text):

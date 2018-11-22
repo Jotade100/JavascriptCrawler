@@ -5,7 +5,7 @@ from pygments.token import String, string_to_tokentype
 
 # # # # # # # # Métodos # # # # # # # #
 def readFile(archivo):
-    tmpFile = open(archivo, 'r').read()
+    tmpFile = open(archivo, 'r', encoding = "utf-8").read()
     return tmpFile
 
 def agregar(item, lista):

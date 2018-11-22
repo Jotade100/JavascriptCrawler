@@ -3,6 +3,9 @@ from fileParser import lexeo
 import yaml
 import os.path
 
+def imprimir(cadena):
+    return print(cadena.encode('utf-8'))
+
 
 with open("config.yml", 'r') as ymlfile:
     cfg = yaml.load(ymlfile)
@@ -13,6 +16,7 @@ lectura(listaArchivos)
 # Probando la lectura
 #print(listaArchivos)
 #lexeo(listaArchivos[0])
+imprimir("---- Archivos leídos ----")
 for i in listaArchivos:
     #print(i)
     #print(i[0], os.path.exists(i[0]))
