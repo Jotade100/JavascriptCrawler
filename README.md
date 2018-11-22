@@ -1,4 +1,4 @@
-# Python Crawler
+# Python Crawler :mag:
 > Este sistema es un crawler que permite indexar y buscar objetos en Python (versión > 3.5). Esto lo hace a través de la inspección del código fuente e identificación de relaciones entre archivos utilizando las expresiones  ```import``` en el código, con el fin de ubicar los demás archivos que serán parseados y crear un path de recorrido en el grafo. Luego de parsear el código fuente, se almacenan las variables, funciones y clases identificadas en una base de datos Mongo, para luego facilitar las consultas personalizadas de la data. 
 
 ## Instalación e implementación
@@ -105,3 +105,10 @@ En la consola de MongoDb, seleccionar la base de datos correcta:
 * `db.classes.find( {inheritsClass:"data"} )` Encuentra todas las `clases` que heredan la clase `data`.
 
 Para queries más avanzados, puede consultar el [manual de queries](https://docs.mongodb.com/manual/tutorial/query-documents/) de MongoDB Shell.
+
+# Autor
+
+**Juan Diego Sique Martínez** :musical_keyboard: *Universidad Francisco Marroquín* :notes: [Correo](juandiegosique@ufm.edu)
+
+
+**Geordie Josué Quiaroa Bulnes** :coffee: *Universidad Francisco Marroquín* :computer: [Correo](gquiroa@ufm.edu)
