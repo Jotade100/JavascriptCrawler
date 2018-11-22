@@ -35,6 +35,7 @@ def extractParams(tmpFileJsonArray, indice): # indice primer parentesis
 
 def extractInherits(tmpFileJsonArray, indice): # indice primer parentesis
     indice = indice + 1 # esto es para empezar a evaluar el primer parametro.
+    inheritedClass = ""
     while tmpFileJsonArray[indice]["value"] != ")":
         if tmpFileJsonArray[indice]["token"] == "Name":
             inheritedClass = tmpFileJsonArray[indice]["value"]
@@ -55,46 +56,39 @@ def lexeo(archivo):
     variablesInFile = [] #aqui se guardan los objetos json
     tmpVariables = [] #aqui se guarda solo el nombre de las variables en el archivo para validar que no se guarden en variablesInFile vars repetidas
     functionsInFile = []
-    try:
-        code = readFile(archivo) 
-        tokenObjects = tuple(PythonLexer().get_tokens(code))
-        File2Json =  json.dumps([convertToJson(*token) for token in tokenObjects], indent=2) # creo un multi-string con el formato de un json
-        tmpFileJsonArray = json.loads(File2Json)
-        #print(tmpFileJsonArray)
-        for i in range(0, (len(tmpFileJsonArray)-1)):
-            if (tmpFileJsonArray[i]["token"] == "Keyword.Namespace" and tmpFileJsonArray[i]["value"] == "from") or (tmpFileJsonArray[i]["token"] == "Keyword.Namespace" and tmpFileJsonArray[i]["value"] == "import" and tmpFileJsonArray[i-4]["value"] != "from"): #esta ultima condicion valida que el formato sea: from x import y || import x  
-                if tmpFileJsonArray[i+2]["value"] not in importedFilesInFile: #valido que el valor no se encuentre ya en el array (luego voy a validar que no este en la db)
-                    tmpImported = {"file":tmpFileJsonArray[i+2]["value"], "importedAt": [archivo], "discovered":1}
-                    importedFilesInFile.append(tmpImported) 
-            if tmpFileJsonArray[i]["token"] == "Name.Class":
-                if tmpFileJsonArray[i]["value"] not in classesInFile:
-                    tmpInherits = extractInherits(tmpFileJsonArray,i)
-                    tmpClass = {"className":tmpFileJsonArray[i]["value"], "definedAt": archivo, "inheritsClass":tmpInherits}
-                    classesInFile.append(tmpClass)
+    code = readFile(archivo[0]) 
+    tokenObjects = tuple(PythonLexer().get_tokens(code))
+    File2Json =  json.dumps([convertToJson(*token) for token in tokenObjects], indent=2) # creo un multi-string con el formato de un json
+    tmpFileJsonArray = json.loads(File2Json)
+    #print(tmpFileJsonArray)
+    for i in range(0, (len(tmpFileJsonArray)-1)):
+        if (tmpFileJsonArray[i]["token"] == "Keyword.Namespace" and tmpFileJsonArray[i]["value"] == "from") or (tmpFileJsonArray[i]["token"] == "Keyword.Namespace" and tmpFileJsonArray[i]["value"] == "import" and tmpFileJsonArray[i-4]["value"] != "from"): #esta ultima condicion valida que el formato sea: from x import y || import x  
+            if tmpFileJsonArray[i+2]["value"] not in importedFilesInFile: #valido que el valor no se encuentre ya en el array (luego voy a validar que no este en la db)
+                tmpImported = {"file":tmpFileJsonArray[i+2]["value"], "importedAt": [archivo[0]], "route": [archivo[1]] , "discovered":1}
+                importedFilesInFile.append(tmpImported) 
+        if tmpFileJsonArray[i]["token"] == "Name.Class":
+            if tmpFileJsonArray[i]["value"] not in classesInFile:
+                tmpInherits = extractInherits(tmpFileJsonArray,i)
+                tmpClass = {"className":tmpFileJsonArray[i]["value"], "definedAt": archivo[0], "route": [archivo[1]] , "inheritsClass":tmpInherits}
+                classesInFile.append(tmpClass)
+                db.registrar(C,tmpClass) # Base de datos
+        if tmpFileJsonArray[i]["token"] == "Name":
+            if tmpFileJsonArray[i]["value"] not in tmpVariables and tmpFileJsonArray[i-1]["value"]!= '.' and tmpFileJsonArray[i-2]["value"]!= 'import' :
+                tmpVariables.append(tmpFileJsonArray[i]["value"])
+                tmpVariable = {"variable":tmpFileJsonArray[i]["value"], "declaredAt":archivo[0], "route": archivo[1]}
+                variablesInFile.append(tmpVariable)
+                db.registrar(VAR,tmpVariable) # Base de datos
+        if tmpFileJsonArray[i]["token"] == "Name.Function":
+            tmpParams = extractParams(tmpFileJsonArray,i)
+            #if tmpFileJsonArray[i+1]["token"] == "Token.Punctuation":
+            tmpFunction = {"function":tmpFileJsonArray[i]["value"], "params": tmpParams,"createdAt":archivo[0], "route": archivo[1], "paramsNumber": len(tmpParams) ,"importedAt":[]}
+            functionsInFile.append(tmpFunction)
+            db.registrar(FX,tmpFunction) # Base de datos
+    # Terminado de leer el archivo
+    #print(classesInFile)
+    #print(variablesInFile)
+    #print(functionsInFile)
 
-                    db.registrar(C,tmpClass) # Base de datos
-
-
-            if tmpFileJsonArray[i]["token"] == "Name":
-                if tmpFileJsonArray[i]["value"] not in tmpVariables and tmpFileJsonArray[i-1]["value"]!= '.' and tmpFileJsonArray[i-2]["value"]!= 'import' :
-                    tmpVariables.append(tmpFileJsonArray[i]["value"])
-                    tmpVariable = {"variable":tmpFileJsonArray[i]["value"], "declaredAt":archivo}
-                    variablesInFile.append(tmpVariable)
-                    db.registrar(VAR,tmpVariable) # Base de datos
-
-            if tmpFileJsonArray[i]["token"] == "Name.Function":
-                tmpParams = extractParams(tmpFileJsonArray,i)
-                #if tmpFileJsonArray[i+1]["token"] == "Token.Punctuation":
-                tmpFunction = {"function":tmpFileJsonArray[i]["value"], "params": tmpParams,"createdAt":archivo, "paramsNumber": len(tmpParams) ,"importedAt":[]}
-                functionsInFile.append(tmpFunction)
-                db.registrar(FX,tmpFunction) # Base de datos
-        # Terminado de leer el archivo
-        #print(classesInFile)
-        #print(variablesInFile)
-        #print(functionsInFile)
-
-    except:
-        variable = 0
 
 #db.imprimir(FX)
 

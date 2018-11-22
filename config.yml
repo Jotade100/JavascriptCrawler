@@ -1,3 +1,3 @@
 inicializador:
   pathBase: D:\path\a\archivos\a\Utilizar #esto es por si no se usa docker
-  archivo: archivoAParsear.py
+  archivo: testFile.py

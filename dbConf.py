@@ -13,7 +13,8 @@ class dataBase():
 
     def __init__(self, puerto=27017):
         try: 
-            self.client = MongoClient('localhost', puerto) #27017
+            self.client = MongoClient('mongodb://localhost', puerto) #27017
+            self.client.drop_database('pythonParser')
             self.data = self.client['pythonParser']   # creo/acceso la base de datos
             self.variables_db = self.data['variables']  # creo la coleccion variables en la db pythonParser
             self.functions_db = self.data['functions'] # creo la coleccion functions en la db pythonParser
@@ -32,7 +33,7 @@ class dataBase():
             self._parametros["function"].insert(dictionary2save)
         if collection == "class":
             self._parametros["class"].insert(dictionary2save)
-        #print('Guardado')
+        #print('Guardado', dictionary2save)
     
     def imprimir(self, collection):
         if collection == "var":
